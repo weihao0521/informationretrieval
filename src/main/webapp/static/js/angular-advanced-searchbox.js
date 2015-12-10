@@ -27,12 +27,6 @@ angular.module('angular-advanced-searchbox', [])
 
                     $scope.placeholder = $scope.placeholder || 'Search ...';
                     $scope.searchParams = [];
-//                    $scope.parameters = [{ key: "name", name: "Name", placeholder: "Name..." },
-//          { key: "city", name: "City", placeholder: "City..." },
-//          { key: "country", name: "Country", placeholder: "Country..." },
-//          { key: "emailAddress", name: "E-Mail", placeholder: "E-Mail..." },
-//          { key: "job", name: "Job", placeholder: "Job..." }
-//        ];
                     $scope.searchQuery = '';
                     $scope.setSearchFocus = false;
                     var searchThrottleTimer;
