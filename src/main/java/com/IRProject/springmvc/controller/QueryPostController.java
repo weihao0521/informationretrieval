@@ -19,8 +19,13 @@ import com.IRProject.springmvc.model.Query;
 @Controller
 public class QueryPostController {
     @RequestMapping(value = "/query/", method = RequestMethod.POST)
-	public @ResponseBody Query PostService(@RequestBody Query query) {
-            System.out.println(query.getJob());
-		return query;
-	}
+    public @ResponseBody Query PostService(@RequestBody Query query) {
+        System.out.println(query.getJob());
+        return query;
+    }
+    
+    @RequestMapping(value = "/query/", method = RequestMethod.GET)
+    public String ProfilesPage() {
+        return "ProfileRepresent";
+    }   
 }
