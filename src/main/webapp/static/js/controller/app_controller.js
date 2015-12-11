@@ -23,14 +23,14 @@ App.controller('AppController',[ '$scope', '$http', function($scope, $http) {
 
         });
 
-        var response = $http.post('http://localhost:8080/IRProject/query/', formData);
+//        var response = $http.post('http://localhost:8080/IRProject/query/', formData);
         response.success(function(data, status, headers, config) {
                 $scope.list.push(data);
         });
         response.error(function(data, status, headers, config) {
                 alert( "Exception details: " + JSON.stringify({data: data}));
         });
-        
+        $scope.list = [];
         };
         $scope.loadPredefinedSearchParamSet = function(){
             var response = $http.get('http://localhost:8080/IRProject/query/');

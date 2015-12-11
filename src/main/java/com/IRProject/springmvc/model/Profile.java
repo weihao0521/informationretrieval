@@ -11,57 +11,74 @@ package com.IRProject.springmvc.model;
  */
 public class Profile {
     private String name;
-    private String university;
-    private String skills;
-    private String company; 
-    private String summary;
-    private String experience;
+    private String[] universities;
+    private String[] skills;
+    private String[] companies; 
+    private String summary; 
+    private String jobTitle;
+    private String locality;
+    private String industry;
 
-    public void setExperience(String experience) {
-        this.experience = experience;
+    public void setUniversities(String[] universities) {
+        this.universities = universities;
     }
 
-    public String getExperience() {
-        return experience;
+    public void setCompanies(String[] companies) {
+        this.companies = companies;
+    }
+
+    public String[] getUniversities() {
+        return universities;
+    }
+
+    public String[] getCompanies() {
+        return companies;
+    }
+    public void setIndustry(String industry) {
+        this.industry = industry;
+    }
+
+    public String getIndustry() {
+        return industry;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
     }
 
     public void setSummary(String summary) {
         this.summary = summary;
     }
 
-    public String getSummary() {
-        return summary;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public void setSkills(String skills) {
+    public void setSkills(String[] skills) {
         this.skills = skills;
-    }
-
-    public String getSkills() {
-        return skills;
-    }
-
-    public void setUniversity(String university) {
-        this.university = university;
-    }
-
-    public String getUniversity() {
-        return university;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public String[] getSkills() {
+        return skills;
+    }
+
+    public String getName() {
+        return name;
     }
 }
