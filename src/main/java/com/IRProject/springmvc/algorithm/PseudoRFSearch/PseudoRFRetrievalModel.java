@@ -5,8 +5,8 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import com.IRProject.springmvc.algorithm.Classes.Document;
-import com.IRProject.springmvc.algorithm.Classes.Query;
 import com.IRProject.springmvc.algorithm.IndexingLucene.MyIndexReader;
+import com.IRProject.springmvc.model.Profile;
 
 public class PseudoRFRetrievalModel {
 
@@ -16,15 +16,18 @@ public class PseudoRFRetrievalModel {
 	Map<Integer, Doc> unionPostList;
 	//<docID, <token, p(w|D)>>
 	Map<Integer, HashMap<String, Double>> DocTokenScore;
+	//<dodcNo, Profile object>, corresponding to the specific indexing documents, for "job", for "skill"
+	Map<String, Profile> docNoProfiles;
 	//one big pseudo relevant doc's length
 	long RefLength;
 	
-	public PseudoRFRetrievalModel(MyIndexReader ixreader, int lenCollection)
+	public PseudoRFRetrievalModel(MyIndexReader ixreader, int lenCollection, HashMap<String, Profile> docFiles)
 	{
 		this.ixreader=ixreader;
 		LENGTH_Col = lenCollection;
 		unionPostList = new HashMap<Integer, Doc>();
 		DocTokenScore = new HashMap<Integer, HashMap<String, Double>>();
+		docNoProfiles = docFiles;
 		RefLength = 0;
 	}
 	
@@ -38,14 +41,14 @@ public class PseudoRFRetrievalModel {
 	 * @param alpha parameter of relevance feedback model
 	 * @return TopN most relevant document, in List structure
 	 */
-	public List<Document> RetrieveQuery( Query aQuery, int TopN, int TopK, double alpha) throws Exception {	
+	public List<Document> RetrieveQuery( String query, int TopN, int TopK, double alpha) throws Exception {	
 
 		//sort all retrieved documents from most relevant to least, and return TopN
 		List<Document> results = new ArrayList<Document>();
 		
 		//get <token, P(token|feedback documents)>
-		HashMap<String,Double> TokenRFScore = GetTokenRFScore(aQuery,TopK);
-		String[] tokens = aQuery.GetQueryContent().split("\\s+");
+		HashMap<String,Double> TokenRFScore = GetTokenRFScore(query,TopK);
+		String[] tokens = query.split("\\s+");
 		
 		for(Entry<Integer, Doc> e : unionPostList.entrySet()){
 			int docID = e.getKey();
@@ -60,7 +63,8 @@ public class PseudoRFRetrievalModel {
 				//P(Q|D) = P(w1|D')*P(w2|D')*,...,*P(wn|D')
 				docRankScore = docRankScore * TokenDocScoreAfter;
 			}
-			Document doc = new Document(String.valueOf(docID), docNO, Math.log(docRankScore));
+			//Profile p = docNoProfiles.get(docNO)
+			Document doc = new Document(String.valueOf(docID), docNO, Math.log(docRankScore), docNoProfiles.get(docNO));
 			results.add(doc);
 		}
 		
@@ -71,9 +75,9 @@ public class PseudoRFRetrievalModel {
 	}
 	
 	//return HashMap<{token[i], RFProb}, {...}>
-	public HashMap<String,Double> GetTokenRFScore(Query aQuery,  int TopK) throws Exception
+	public HashMap<String,Double> GetTokenRFScore(String query,  int TopK) throws Exception
 	{
-		if(aQuery == null || TopK <= 0)
+		if(query == null || TopK <= 0)
 			return null;
 		
 		//<token, P(w|REF)>
@@ -86,7 +90,7 @@ public class PseudoRFRetrievalModel {
 		Map<String, Double> TermCoProb = new HashMap<String, Double>();
 		int mu = 10;
 		
-		String[] tokens = aQuery.GetQueryContent().split("\\s+");
+		String[] tokens = query.split("\\s+");
 		for(int i = 0; i<tokens.length; i++){
 			int[][] postingList = ixreader.getPostingList(tokens[i]);
 			long termCoFreq = 0;
@@ -136,7 +140,8 @@ public class PseudoRFRetrievalModel {
 				//P(Q|D) = p(w1|D)*p(w2|D)*..*p(w|D)
 				docRankScore = docRankScore * termProb_doc;			
 			}
-			Document doc = new Document(String.valueOf(docID), "",docRankScore);
+			//no need to store Profiles, so set them null;
+			Document doc = new Document(String.valueOf(docID), "",docRankScore, null);
 			rankList.add(doc);
 		}
 		

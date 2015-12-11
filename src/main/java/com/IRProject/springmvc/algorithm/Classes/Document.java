@@ -1,15 +1,18 @@
 package com.IRProject.springmvc.algorithm.Classes;
+import com.IRProject.springmvc.model.Profile;
 
 public class Document {
 	
 	protected String docid;
 	protected String docno;
 	protected double score;
+	protected Profile profile;
 	
-	public Document( String docid, String docno, double score ) {
+	public Document( String docid, String docno, double score, Profile profile ) {
 		this.docid = docid;
 		this.docno = docno;
 		this.score = score;
+		this.profile = profile;
 	}
 	
 	public String docid() {
@@ -24,6 +27,14 @@ public class Document {
 		return score;
 	}
 	
+	public Profile profile() {
+		return profile;
+	}
+	
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+	
 	public void setDocid( String docid ) {
 		this.docid = docid;
 	}
@@ -34,6 +45,5 @@ public class Document {
 	
 	public void setScore( double score ) {
 		this.score = score;
-	}
-	
+	}	
 }

@@ -14,37 +14,21 @@ public class MainLuceneIndex {
 		hm2.WriteIndex("skill");
 		long endTime=System.currentTimeMillis();
 		System.out.println("index skill corpus running time: "+(endTime-startTime)/60000.0+" min"); 
-		startTime=System.currentTimeMillis();
-		hm2.ReadIndex("skill", "technolog");
-		endTime=System.currentTimeMillis();
-		System.out.println("load index & retrieve running time: "+(endTime-startTime)/60000.0+" min");
 
 		startTime=System.currentTimeMillis();
 		hm2.WriteIndex("job");
 		endTime=System.currentTimeMillis();
 		System.out.println("index job corpus running time: "+(endTime-startTime)/60000.0+" min");
-		startTime=System.currentTimeMillis();
-		hm2.ReadIndex("job", "analysi");
-		endTime=System.currentTimeMillis();
-		System.out.println("load index & retrieve running time: "+(endTime-startTime)/60000.0+" min");
 		
 		startTime=System.currentTimeMillis();
 		hm2.WriteIndex("education");
 		endTime=System.currentTimeMillis();
 		System.out.println("index education corpus running time: "+(endTime-startTime)/60000.0+" min");
-		startTime=System.currentTimeMillis();
-		hm2.ReadIndex("education", "carnegi");
-		endTime=System.currentTimeMillis();
-		System.out.println("load index & retrieve running time: "+(endTime-startTime)/60000.0+" min");	
 		
 		startTime=System.currentTimeMillis();
 		hm2.WriteIndex("general");
 		endTime=System.currentTimeMillis();
 		System.out.println("index education corpus running time: "+(endTime-startTime)/60000.0+" min");
-		startTime=System.currentTimeMillis();
-		hm2.ReadIndex("general", "carnegi");
-		endTime=System.currentTimeMillis();
-		System.out.println("load index & retrieve running time: "+(endTime-startTime)/60000.0+" min");	
 	}
 
 	public void WriteIndex(String dataType) throws Exception {

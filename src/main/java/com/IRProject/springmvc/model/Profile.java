@@ -14,11 +14,19 @@ public class Profile {
     private String[] universities;
     private String[] skills;
     private String[] companies; 
-    private String summary; 
-    private String jobTitle;
+    private String[] jobTitles;
     private String locality;
     private String industry;
+    private String url;
+    
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
+    public String getUrl() {
+        return url;
+    }
+    
     public void setUniversities(String[] universities) {
         this.universities = universities;
     }
@@ -50,16 +58,12 @@ public class Profile {
         return locality;
     }
 
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
+    public void setJobTitle(String[] jobTitles) {
+        this.jobTitles = jobTitles;
     }
 
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public String[] getJobTitle() {
+        return jobTitles;
     }
 
     public void setSkills(String[] skills) {
@@ -68,10 +72,6 @@ public class Profile {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSummary() {
-        return summary;
     }
 
     public String[] getSkills() {
