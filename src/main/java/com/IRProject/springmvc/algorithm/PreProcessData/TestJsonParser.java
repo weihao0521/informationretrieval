@@ -5,11 +5,6 @@ import java.util.Iterator;
 import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-/**
- * 
- * @author millerai
- *
- */
 public class TestJsonParser {
 	public static void main(String[] args) throws ParseException {
 		String str = "{\"_id\":\"in-1emilyzhao\",\"education\":{\"1\":{\"edu_description\":null,\"edu_institution\":\"Syracuse University - Martin J. Whitman School of Management\",\"edu_time\":\"2012?2015\",\"edu_title\":[\"Bachelor of Science (B.S.)\"]},\"2\":{\"edu_description\":null,\"edu_institution\":\"Syracuse University Abroad - Madrid Center, Spain\",\"edu_time\":\"2015\",\"edu_title\":[]}},\"groups\":{},\"industry\":\"Marketing and Advertising\",\"locality\":\"Greater Minneapolis-St. Paul Area\",\"name\":\"Emily Zhao\",\"url\":\"https://www.linkedin.com/in/1emilyzhao\"}";

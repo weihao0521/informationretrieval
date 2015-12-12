@@ -1,9 +1,5 @@
 package com.IRProject.springmvc.algorithm.PreProcessData;
-/**
- * 
- * @author millerai
- *
- */
+
 public class WordTokenizer {
 	String content;
 	String[] words;

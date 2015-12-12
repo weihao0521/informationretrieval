@@ -16,12 +16,6 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 import com.IRProject.springmvc.algorithm.Classes.Path;
-
-/**
- * 
- * @author millerai
- *
- */
 public class MyIndexWriter {
 	
 	protected File dir;

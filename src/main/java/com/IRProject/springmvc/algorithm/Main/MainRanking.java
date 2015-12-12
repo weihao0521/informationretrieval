@@ -15,11 +15,6 @@ import com.IRProject.springmvc.algorithm.PseudoRFSearch.PseudoRFRetrievalModel;
 import com.IRProject.springmvc.algorithm.Search.PreProcessQuery;
 import com.IRProject.springmvc.model.*;
 
-/**
- * 
- * @author millerai
- *
- */
 public class MainRanking {
 	private String contentQ;
 	private String indicatorQ;
@@ -29,18 +24,16 @@ public class MainRanking {
 	private HashMap<String, Profile> jobProfiles, skillProfiles, eduProfiles, generProfiles;
 	private ParseJson parse = null;
 	
-	public MainRanking() throws IOException {
-
-
+	public MainRanking(Query q) throws IOException {
+		PreProcessQuery prePro = new PreProcessQuery(q);
+		contentQ = prePro.preProcessQuery();
+		indicatorQ = prePro.getIndicator();
 		parse = new ParseJson();
 		lens = new HashMap<String, Long>();
 	}
 	
-	private void getProfiles(Query q) throws IOException, ParseException {
-		PreProcessQuery prePro = new PreProcessQuery(q);
-		String contentQ = prePro.preProcessQuery();
-		String indicatorQ = prePro.getIndicator();
-		
+	private void getProfiles() throws IOException, ParseException {
+
 		if (indicatorQ.equals("job")) {
 			if (jobProfiles == null) {
 				parse.getJob();
@@ -99,25 +92,22 @@ public class MainRanking {
 		}
 	}
 	
-	public ArrayList<Profile> rankingResult(Query q) throws Exception {
+	public ArrayList<Profile> rankingResult() throws Exception {
 		//get specific allProfiles
-		getProfiles(q);
+		getProfiles();
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
 		MyIndexReader ixreader = new MyIndexReader(indicatorQ);
 		PseudoRFRetrievalModel PRFSearchModel=new PseudoRFRetrievalModel(ixreader, lens.get(indicatorQ), allProfiles);
 		long startTime = System.currentTimeMillis();
 		if (contentQ != null) {
 			List<Document> results = PRFSearchModel.RetrieveQuery(contentQ, 20, 100, 0.4);
-			if (results == null) {
-				ixreader.close();
-				return null;
-			}
-
-			int rank = 1;
-			for (Document doc : results) {
-				profiles.add(doc.profile());
-				System.out.println( doc.docno() + " " + rank + " " + doc.score());
-				rank++;
+			if (results != null) {
+				int rank = 1;
+				for (Document doc : results) {
+					profiles.add(doc.profile());
+					System.out.println( doc.docno() + " " + rank + " " + doc.score());
+					rank++;
+				}
 			}
 		}
 		long endTime = System.currentTimeMillis(); // end time of running code
@@ -131,8 +121,8 @@ public class MainRanking {
 		Query q = new Query(null, "Carnegie Mellon University Zhejiang University machine learning", null, null);
 //		Query q = new Query(null, null, "data analysis", null);
 //		Query q = new Query(null, null, null, "Carnegie Mellon data analysis");
-		MainRanking rank = new MainRanking();
-		ArrayList<Profile> profiles = rank.rankingResult(q);
+		MainRanking rank = new MainRanking(q);
+		ArrayList<Profile> profiles = rank.rankingResult();
 		System.out.println("size: " + profiles.size() + " indicator: " + rank.indicatorQ);
 	}
 }

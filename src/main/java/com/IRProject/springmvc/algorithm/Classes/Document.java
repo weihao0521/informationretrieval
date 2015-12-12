@@ -1,8 +1,4 @@
 package com.IRProject.springmvc.algorithm.Classes;
-/**
- * @author millerai
- */
-
 import com.IRProject.springmvc.model.Profile;
 
 public class Document {

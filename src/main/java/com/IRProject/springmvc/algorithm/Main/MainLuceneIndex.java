@@ -1,14 +1,10 @@
 package com.IRProject.springmvc.algorithm.Main;
+
 import java.util.Map;
 import com.IRProject.springmvc.algorithm.IndexingLucene.MyIndexReader;
 import com.IRProject.springmvc.algorithm.IndexingLucene.MyIndexWriter;
 import com.IRProject.springmvc.algorithm.IndexingLucene.PreProcessedCorpusReader;
 
-/**
- * 
- * @author millerai
- *
- */
 public class MainLuceneIndex {
 	public static void main(String[] args) throws Exception {
 		// main entrance

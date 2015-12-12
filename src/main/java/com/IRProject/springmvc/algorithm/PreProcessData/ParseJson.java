@@ -13,13 +13,9 @@ import java.util.Map.Entry;
 
 import com.IRProject.springmvc.algorithm.Classes.*;
 import com.IRProject.springmvc.model.Profile;
-/**
- * 
- * @author millerai
- * 
- *	create job.txt or education.txt or skill.txt according to users' needs
+/*
+ * create job.txt or education.txt or skill.txt according to users' needs
  */
-
 public class ParseJson {
 	private FileReader fr;
 	private BufferedReader br;

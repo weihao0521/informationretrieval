@@ -10,11 +10,6 @@ import java.util.Map;
 
 import com.IRProject.springmvc.algorithm.Classes.Path;
 
-/**
- * 
- * @author millerai
- *
- */
 public class PreProcessedCorpusReader {
 	private BufferedReader br;
 	private FileInputStream instream_collection;
