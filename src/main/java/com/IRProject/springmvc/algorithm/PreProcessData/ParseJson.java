@@ -28,6 +28,7 @@ public class ParseJson {
 	//<docNo, profile>
 	private HashMap<String, Profile> profiles;
 	private Profile profile;
+	private HashMap<String, Long> collectionLens;
 	
 	public ParseJson() throws IOException {
 		fr = new FileReader(Path.DataDir);
@@ -35,12 +36,16 @@ public class ParseJson {
 		jsonParser = new JSONParser();
 		stopwordRemover = new StopWordRemover();
 		stemmer = new WordStemmer();
+		collectionLens = new HashMap<String, Long>();
 		count = 0;
-//		idPerson = new HashMap<String, String>();
 	}
 	
 	public HashMap<String, Profile> getProfiles() {
 		return profiles;
+	}
+	
+	public HashMap<String, Long> getCoLength() {
+		return collectionLens;
 	}
 	
 	//education + summary
@@ -49,16 +54,19 @@ public class ParseJson {
 		bw = new BufferedWriter(fw);
 		profiles = new HashMap<String, Profile>();
 		JSONObject education = null;
+		JSONObject experience = null;
 		JSONArray skillSet = null;
-		String s = "", summary = "", id = "";
-		ArrayList<String> eduNames = null;
-		String[] skills = null;
-		coLength = 0;
+		String s = "", summary = "", id = "", jobTitle = "", compName = "";
+		ArrayList<String> eduNames = null, eduTimes = null, eduTitles = null;
+		String[] skills = null, companies = null, titles = null;
+		long coLength = 0;
 		
 		while ((s = br.readLine()) != null) {
 			StringBuilder eduStr = new StringBuilder();
 			JSONObject jsonObj = (JSONObject)jsonParser.parse(s);
 			education = (JSONObject)jsonObj.get("education");
+			StringBuilder jobStr = new StringBuilder();		
+			experience = (JSONObject)jsonObj.get("experience");	
 			id = (String)jsonObj.get("_id");
 			count++;
 			
@@ -71,6 +79,8 @@ public class ParseJson {
 				
 			//extract all the school names
 			eduNames = new ArrayList<String>();
+			eduTimes = new ArrayList<String>();
+			eduTitles = new ArrayList<String>();
 			while (iterator.hasNext()) {
 				String idx = iterator.next();
 				JSONObject school = (JSONObject)education.get(idx);
@@ -78,8 +88,54 @@ public class ParseJson {
 				if (eduName != null && eduName.length() > 2) {
 					eduStr.append(eduName + " ");
 					eduNames.add(eduName);
+					String eduTime = (String)school.get("edu_time");
+					if (eduTime != null) {
+						eduTimes.add(eduTime.replaceAll("\\?", "-"));
+					}
+					else {
+						eduTimes.add(eduTime);
+					}
+					JSONArray eduTitle = (JSONArray)school.get("edu_title");
+					if (eduTitle != null && eduTitle.size() != 0) {
+						eduTitles.add((String)eduTitle.get(0));
+					}
+					else {
+						eduTitles.add(null);
+					}
 				}					
 			}
+			if (eduNames.size() == 0) {
+				eduNames = null;
+				continue;
+			}
+			
+			//if "experience" != null, extract company_name + job_title
+			if (experience != null) {
+				Iterator<String> iteratorJob = experience.keySet().iterator(); 
+				int size = experience.keySet().size();
+				companies = new String[size];
+				titles = new String[size];
+				int j = 0;
+				while (iteratorJob.hasNext()) {
+					String idx = iteratorJob.next();
+					JSONObject comInfo = (JSONObject)experience.get(idx);
+					JSONArray company = (JSONArray)comInfo.get("company");
+					if (company == null || company.size() == 0)
+						continue;
+					
+					//get the company name
+					compName = (String)company.get(0);
+					eduStr.append(compName + " ");
+					companies[j] = compName;
+					
+					//get the job title
+					jobTitle = (String)comInfo.get("job_title");
+					if (jobTitle != null) {	
+						titles[j] = jobTitle;
+					}
+					j++;
+				} // end while 
+			} // end if "experience"
 			
 			//if array "skillSet" != null, extract all the skills
 			skillSet = (JSONArray)jsonObj.get("skills");
@@ -88,6 +144,7 @@ public class ParseJson {
 				skills = new String[size];
 				for (int k = 0; k < size; k++) {
 					String skill = (String)skillSet.get(k);
+					eduStr.append(skill + " ");
 					skills[k] = skill;
 				}
 			}
@@ -114,22 +171,28 @@ public class ParseJson {
 			bw.append("\n");
 
 			if(eduNames != null) {
-				profile.setUniversities(eduNames.toArray(new String[eduNames.size()]));
+				int sizeEdu = eduNames.size();
+				profile.setUniversities(eduNames.toArray(new String[sizeEdu]));
+				profile.setEduTimes(eduTimes.toArray(new String[sizeEdu]));
+				profile.setEduTitles(eduTitles.toArray(new String[sizeEdu]));
 			}
 			profile.setName((String)jsonObj.get("name"));
 			profile.setSummary(summary);
 			profile.setSkills(skills);
+			profile.setCompanies(companies);
+			profile.setJobTitle(titles);
 			profile.setIndustry((String)jsonObj.get("industry"));
 			profile.setLocality((String)jsonObj.get("locality"));
 			profile.setUrl((String)jsonObj.get("url"));
 			profiles.put(id, profile);
 			
-			eduNames = null; skills = null;
+			eduNames = null; skills = null; companies = null; titles = null; eduTimes = null; eduTitles = null;
 			
 			if (count % 1000 == 0)
 				System.out.println("Finished " + count + " documents!");
-		}
+		} // end while
 		close();
+		collectionLens.put("education", coLength);	
 	}
 	
 	//experience(company + job_title) + headline + industry + locality + summary
@@ -139,15 +202,17 @@ public class ParseJson {
 		profiles = new HashMap<String, Profile>();
 		JSONObject experience = null;
 		JSONArray skillSet = null;
+		JSONObject education = null;
+		ArrayList<String> eduNames = null; 
 		String s = "", jobTitle = "", compName = "", summary = "";
 		String locale = "", headline = "", industry = "", id = "";
 		String[] companies = null, titles = null, skills = null;
-		coLength = 0;
+		long coLength = 0;
 		
 		while ((s = br.readLine()) != null) {
 			JSONObject jsonObj = (JSONObject)jsonParser.parse(s);
 			StringBuilder jobStr = new StringBuilder();		
-			experience = (JSONObject)jsonObj.get("experience");
+			experience = (JSONObject)jsonObj.get("experience");		
 			id = (String)jsonObj.get("_id");
 			count++;
 			
@@ -182,7 +247,24 @@ public class ParseJson {
 					titles[i] = jobTitle;
 				}
 				i++;
-			} // end while		
+			} // end while	
+			
+			//if "edu" != null, extract all the school names
+			education = (JSONObject)jsonObj.get("education");
+			if (education != null) {
+				Iterator<String> iteratorEdu = education.keySet().iterator();
+				eduNames = new ArrayList<String>();
+				while (iteratorEdu.hasNext()) {
+					String idx = iteratorEdu.next();
+					JSONObject school = (JSONObject)education.get(idx);
+					String eduName = (String)school.get("edu_institution");
+					if (eduName != null && eduName.length() > 2) {
+						eduNames.add(eduName);
+					}					
+				}
+				if (eduNames.size() == 0)
+					eduNames = null;
+			}//end "edu"
 			
 			//if array "skillSet" != null, extract all the skills
 			skillSet = (JSONArray)jsonObj.get("skills");
@@ -235,6 +317,9 @@ public class ParseJson {
 			}
 			bw.append("\n");
 			
+			if (eduNames != null) {
+				profile.setUniversities(eduNames.toArray(new String[eduNames.size()]));
+			}
 			profile.setCompanies(companies);
 			profile.setSummary(summary);
 			profile.setJobTitle(titles);
@@ -245,12 +330,13 @@ public class ParseJson {
 			profile.setUrl((String)jsonObj.get("url"));
 			profiles.put(id, profile);
 			
-			companies = null; titles = null; skills = null;
+			companies = null; titles = null; skills = null; eduNames = null;
 
 			if (count % 1000 == 0)
 				System.out.println("Finished " + count + " documents!");
-		}
+		}//end while
 		close();
+		collectionLens.put("job", coLength);
 	}
 	
 	//skills + the current company + locality + summary
@@ -260,14 +346,17 @@ public class ParseJson {
 		bw = new BufferedWriter(fw);
 		profiles = new HashMap<String, Profile>();
 		JSONArray skillSet = null;
+		JSONObject education = null;
+		ArrayList<String> eduNames = null; 
 		String summary = "", id = "", locale = "";
 		String[] skills = null, company = null, title = null;
-		coLength = 0;
+		long coLength = 0;
 
 		while ((s = br.readLine()) != null) {
 			StringBuilder sklStr = new StringBuilder();
 			JSONObject jsonObj = (JSONObject)jsonParser.parse(s);
 			skillSet = (JSONArray)jsonObj.get("skills");
+			education = (JSONObject)jsonObj.get("education");
 			id = (String)jsonObj.get("_id");
 			count++;
 			
@@ -309,6 +398,22 @@ public class ParseJson {
 				}
 			}
 			
+			//if "edu" != null, extract all the school names
+			if (education != null) {
+				Iterator<String> iterator = education.keySet().iterator();
+				eduNames = new ArrayList<String>();
+				while (iterator.hasNext()) {
+					String idx = iterator.next();
+					JSONObject school = (JSONObject)education.get(idx);
+					String eduName = (String)school.get("edu_institution");
+					if (eduName != null && eduName.length() > 2) {
+						eduNames.add(eduName);
+					}					
+				}
+				if (eduNames.size() == 0)
+					eduNames = null;
+			}
+			
 			//get the current position
 			locale = (String)jsonObj.get("locality");
 			if (locale != null) {
@@ -337,6 +442,9 @@ public class ParseJson {
 			}
 			bw.append("\n");
 			
+			if (eduNames != null) {
+				profile.setUniversities(eduNames.toArray(new String[eduNames.size()]));
+			}
 			profile.setSkills(skills);
 			profile.setSummary(summary);
 			profile.setCompanies(company);
@@ -347,12 +455,13 @@ public class ParseJson {
 			profile.setUrl((String)jsonObj.get("url"));
 			profiles.put(id, profile);
 			
-			skills = null; company = null; title = null;
+			eduNames = null; skills = null; company = null; title = null;
 			
 			if (count % 1000 == 0)
 				System.out.println("Finished " + count + " documents!");
 		}
 		close();
+		collectionLens.put("skill", coLength);
 	}
 	
 	//education + experience(company + job_title) + headline + industry + locality + summary + skills
@@ -367,7 +476,7 @@ public class ParseJson {
 		String locale = "", headline = "", industry = "", id = "";
 		ArrayList<String> eduNames = null; 
 		String[] companies = null, titles = null, skills = null;
-		coLength = 0;
+		long coLength = 0;
 		
 		while ((s = br.readLine()) != null) {
 			StringBuilder generalStr = new StringBuilder();
@@ -397,6 +506,8 @@ public class ParseJson {
 						eduNames.add(eduName);
 					}					
 				}
+				if (eduNames.size() == 0)
+					eduNames = null;
 			}
 			
 			//if "experience" != null, extract company_name + job_title
@@ -478,13 +589,14 @@ public class ParseJson {
 			}
 			bw.append("\n");
 
-			profile.setSkills(skills);
+
 			if (eduNames != null) {
 				profile.setUniversities(eduNames.toArray(new String[eduNames.size()]));
 			}
-			profile.setJobTitle(titles);
+			profile.setSkills(skills);
 			profile.setSummary(summary);
 			profile.setCompanies(companies);
+			profile.setJobTitle(titles);
 			profile.setLocality(locale);
 			profile.setIndustry(industry);
 			profile.setName((String)jsonObj.get("name"));
@@ -495,8 +607,9 @@ public class ParseJson {
 			
 			if (count % 1000 == 0)
 				System.out.println("Finished " + count + " documents!");
-		}
+		}//end "general"
 		close();
+		collectionLens.put("general", coLength);
 	}
 	
 	//close BufferedReader and BufferedWriter
@@ -506,14 +619,14 @@ public class ParseJson {
 	}	
 	public static void main(String[] args) throws IOException, ParseException {
 		ParseJson parse = new ParseJson();
-//		parse.getEdu();  	//edu len:235217
+		parse.getEdu();  	//edu len:235217
 //		parse.getSkill(); 	//skill len: 623166	
 //		parse.getJob(); 	//job len: 616581
-		parse.getGeneral();  	//general len: 1128252
-//		HashMap<String, Profile> p = parse.getProfiles();
+//		parse.getGeneral();  	//general len: 1128252
+		HashMap<String, Profile> p = parse.getProfiles();
 //		for (Profile pro : p) {
 //			System.out.println("profiles:" + pro.getName());
 //		}
-		System.out.println("general len: " + parse.coLength);
+		System.out.println("general len: " + p.size());
 	}
 }

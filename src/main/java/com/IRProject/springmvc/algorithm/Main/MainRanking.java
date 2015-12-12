@@ -18,30 +18,22 @@ import com.IRProject.springmvc.model.*;
 public class MainRanking {
 	private String contentQ;
 	private String indicatorQ;
-	private Map<String, Integer> lens;
+	private Map<String, Long> lens;
 	//<DocNO, profile> hashMap for all indexing files.
 	private HashMap<String, Profile> allProfiles;
 	private HashMap<String, Profile> jobProfiles, skillProfiles, eduProfiles, generProfiles;
+	private ParseJson parse = null;
 	
 	public MainRanking(Query q) throws IOException {
 		PreProcessQuery prePro = new PreProcessQuery(q);
 		contentQ = prePro.preProcessQuery();
 		indicatorQ = prePro.getIndicator();
-		lens = getIndexingLens();
-	}
-	
-	// get specific length of indexing docs for "job", or "skill", ...
-	private HashMap<String, Integer> getIndexingLens() {
-		HashMap<String, Integer> length = new HashMap<String, Integer>();
-		length.put("job", 616581);
-		length.put("skill", 623166);
-		length.put("education", 235217);
-		length.put("general", 1128252);
-		return length;
+		parse = new ParseJson();
+		lens = new HashMap<String, Long>();
 	}
 	
 	private void getProfiles() throws IOException, ParseException {
-		ParseJson parse = new ParseJson();
+
 		if (indicatorQ.equals("job")) {
 			if (jobProfiles == null) {
 				parse.getJob();
@@ -50,6 +42,11 @@ public class MainRanking {
 			}
 			else
 				allProfiles = jobProfiles;
+			
+			if (!lens.containsKey("job")) {
+				long lenJob = parse.getCoLength().get("job");
+				lens.put("job", lenJob);
+			}
 		}
 		else if (indicatorQ.equals("skill")) {
 			if (skillProfiles == null) {
@@ -59,6 +56,11 @@ public class MainRanking {
 			}
 			else
 				allProfiles = skillProfiles;
+			
+			if (!lens.containsKey("skill")) {
+				long lenSkill = parse.getCoLength().get("skill");
+				lens.put("skill", lenSkill);
+			}
 		}
 		else if (indicatorQ.equals("education")) {
 			if (eduProfiles == null) {
@@ -68,6 +70,11 @@ public class MainRanking {
 			}
 			else
 				allProfiles = eduProfiles;
+			
+			if (!lens.containsKey("education")) {
+				long lenEdu = parse.getCoLength().get("education");
+				lens.put("education", lenEdu);
+			}
 		}
 		else {
 			if (generProfiles == null) {
@@ -77,6 +84,11 @@ public class MainRanking {
 			}
 			else
 				allProfiles = generProfiles;
+			
+			if(!lens.containsKey("general")) {
+				long lenGener = parse.getCoLength().get("general");
+				lens.put("general", lenGener);
+			}
 		}
 	}
 	
@@ -105,8 +117,8 @@ public class MainRanking {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		Query q = new Query("data analyst Google", null, null, null);
-//		Query q = new Query(null, "Carnegie Mellon", null, null);
+//		Query q = new Query("data analyst Google", null, null, null);
+		Query q = new Query(null, "Carnegie Mellon University Zhejiang University machine learning", null, null);
 //		Query q = new Query(null, null, "data analysis", null);
 //		Query q = new Query(null, null, null, "Carnegie Mellon data analysis");
 		MainRanking rank = new MainRanking(q);

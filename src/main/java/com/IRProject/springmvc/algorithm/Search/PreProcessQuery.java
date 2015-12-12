@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.IRProject.springmvc.algorithm.Classes.Path;
 
 //import com.IRProject.springmvc.algorithm.Classes.*;
@@ -25,17 +26,19 @@ public class PreProcessQuery {
 	//Get all the querys' # & content, store them in a list
 	private void generateIndicateContent() {
 		StringBuilder sb = new StringBuilder();
+		if (query.getQuery() == null && query.getJob() == null && query.getSkill() == null && query.getUniversity() == null)
+			throw new IllegalStateException("Query should not be empty!");
 		if (query.getQuery() != null) {
 			indicator = "general";
-			sb.append(query.getQuery());
+			sb.append(query.getQuery() + " ");
 			if (query.getJob() != null) {
-				sb.append(query.getJob());
+				sb.append(query.getJob() + " ");
 			}
 			if (query.getSkill() != null) {
-				sb.append(query.getSkill());
+				sb.append(query.getSkill() + " ");
 			}
 			if (query.getUniversity() != null) {
-				sb.append(query.getUniversity());
+				sb.append(query.getUniversity() + " ");
 			}
 		}
 		else if (query.getJob() != null && query.getSkill() == null && query.getUniversity() == null) {
@@ -53,13 +56,13 @@ public class PreProcessQuery {
 		else {
 			indicator = "general";
 			if (query.getJob() != null) {
-				sb.append(query.getJob());
+				sb.append(query.getJob() + " ");
 			}
 			if (query.getSkill() != null) {
-				sb.append(query.getSkill());
+				sb.append(query.getSkill() + " ");
 			}
 			if (query.getUniversity() != null) {
-				sb.append(query.getUniversity());
+				sb.append(query.getUniversity() + " ");
 			}
 		}
 		content = sb.toString();
@@ -93,10 +96,11 @@ public class PreProcessQuery {
 //		Query q = new Query("computer science", null, null, null);
 //		Query q = new Query(null, "Carnegie Mellon", null, null);
 //		Query q = new Query(null, null, "data analysis", null);
-		Query q = new Query(null, null, null, "Carnegie Mellon data analysis");
+		Query q = new Query("software engineering", "Zhejiang University", "python", "Carnegie Mellon data analysis");
+//		Query q = new Query(null, null, "data analysis", null);
 		PreProcessQuery prePro = new PreProcessQuery(q);
 		String str = prePro.preProcessQuery();
-		System.out.println("queryPrePro: " + str);
+		System.out.println("queryPrePro: " + str + " indicator: " + prePro.indicator);
 		
 	}
 }

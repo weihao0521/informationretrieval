@@ -11,7 +11,7 @@ import com.IRProject.springmvc.model.Profile;
 public class PseudoRFRetrievalModel {
 
 	MyIndexReader ixreader;
-	private final int LENGTH_Col;
+	private long LENGTH_Col;
 	//<docID, Doc>
 	Map<Integer, Doc> unionPostList;
 	//<docID, <token, p(w|D)>>
@@ -21,7 +21,7 @@ public class PseudoRFRetrievalModel {
 	//one big pseudo relevant doc's length
 	long RefLength;
 	
-	public PseudoRFRetrievalModel(MyIndexReader ixreader, int lenCollection, HashMap<String, Profile> docFiles)
+	public PseudoRFRetrievalModel(MyIndexReader ixreader, long lenCollection, HashMap<String, Profile> docFiles)
 	{
 		this.ixreader=ixreader;
 		LENGTH_Col = lenCollection;
@@ -89,7 +89,7 @@ public class PseudoRFRetrievalModel {
 		
 		//<token, P(w|Co)>
 		Map<String, Double> TermCoProb = new HashMap<String, Double>();
-		int mu = 1000;
+		int mu = 500;
 		
 		String[] tokens = query.split("\\s+");
 		for(int i = 0; i<tokens.length; i++){
