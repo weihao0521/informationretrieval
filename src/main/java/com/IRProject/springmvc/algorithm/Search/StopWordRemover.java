@@ -7,7 +7,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.IRProject.springmvc.algorithm.Classes.Path;
-
+/**
+ * 
+ * @author millerai
+ *
+ */
 public class StopWordRemover {
 	Set<String> stopWords;
 	FileReader fr;

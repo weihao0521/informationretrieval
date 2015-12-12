@@ -1,5 +1,9 @@
 package com.IRProject.springmvc.algorithm.Classes;
 
+/**
+ * @author millerai
+ *
+ */
 
 public class Path {
 //	public static String StopwordDir="/Users/william/Downloads/GroupWork/IR-TermProject/data/stopword.txt";//address of stopwords.txt

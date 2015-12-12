@@ -2,6 +2,7 @@ package com.IRProject.springmvc.algorithm.Classes;
 
 
 /**
+ * @author millerai
  * Stemmer, implementing the Porter Stemming Algorithm
  *
  * The Stemmer class transforms a word into its root form. The input word can be

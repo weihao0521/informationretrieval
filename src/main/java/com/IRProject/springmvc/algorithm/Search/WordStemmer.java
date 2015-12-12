@@ -1,7 +1,11 @@
 package com.IRProject.springmvc.algorithm.Search;
 
 import com.IRProject.springmvc.algorithm.Classes.Stemmer;
-
+/**
+ * 
+ * @author millerai
+ *
+ */
 //Convert terms into lower case and 
 public class WordStemmer {
 	char[] word;
