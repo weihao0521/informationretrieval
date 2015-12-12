@@ -11,7 +11,11 @@ import com.IRProject.springmvc.algorithm.Classes.Path;
 
 //import com.IRProject.springmvc.algorithm.Classes.*;
 import com.IRProject.springmvc.model.Query;
-
+/**
+ * 
+ * @author millerai
+ *
+ */
 public class PreProcessQuery {
 	private Query query;
 	private String indicator;

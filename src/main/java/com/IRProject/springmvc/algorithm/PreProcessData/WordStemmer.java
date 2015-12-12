@@ -1,7 +1,11 @@
 package com.IRProject.springmvc.algorithm.PreProcessData;
 
 import com.IRProject.springmvc.algorithm.Classes.Stemmer;
-
+/**
+ * 
+ * @author millerai
+ *
+ */
 //Convert terms into lower case and 
 public class WordStemmer {
 	char[] word;

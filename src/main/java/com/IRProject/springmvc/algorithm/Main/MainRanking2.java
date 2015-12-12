@@ -14,12 +14,13 @@ import com.IRProject.springmvc.algorithm.PreProcessData.ParseJson;
 import com.IRProject.springmvc.algorithm.PseudoRFSearch.PseudoRFRetrievalModel;
 import com.IRProject.springmvc.algorithm.Search.PreProcessQuery;
 import com.IRProject.springmvc.model.*;
+
 /**
  * 
  * @author millerai
  *
  */
-public class MainRanking {
+public class MainRanking2 {
 	private String contentQ;
 	private String indicatorQ;
 	private Map<String, Long> lens;
@@ -28,15 +29,18 @@ public class MainRanking {
 	private HashMap<String, Profile> jobProfiles, skillProfiles, eduProfiles, generProfiles;
 	private ParseJson parse = null;
 	
-	public MainRanking() throws IOException {
+	public MainRanking2() throws IOException {
+
+
 		parse = new ParseJson();
 		lens = new HashMap<String, Long>();
 	}
 	
 	private void getProfiles(Query q) throws IOException, ParseException {
 		PreProcessQuery prePro = new PreProcessQuery(q);
-		contentQ = prePro.preProcessQuery();
-		indicatorQ = prePro.getIndicator();
+		String contentQ = prePro.preProcessQuery();
+		String indicatorQ = prePro.getIndicator();
+		
 		if (indicatorQ.equals("job")) {
 			if (jobProfiles == null) {
 				parse.getJob();
@@ -96,12 +100,6 @@ public class MainRanking {
 	}
 	
 	public ArrayList<Profile> rankingResult(Query q) throws Exception {
-		if (q == null) {
-			return null;
-		}
-		if (q.getJob() == null && q.getQuery() == null && q.getSkill() == null && q.getUniversity() == null)
-			return null;
-		
 		//get specific allProfiles
 		getProfiles(q);
 		ArrayList<Profile> profiles = new ArrayList<Profile>();
@@ -114,7 +112,7 @@ public class MainRanking {
 				ixreader.close();
 				return null;
 			}
-				
+
 			int rank = 1;
 			for (Document doc : results) {
 				profiles.add(doc.profile());
@@ -130,11 +128,11 @@ public class MainRanking {
 	
 	public static void main(String[] args) throws Exception {
 //		Query q = new Query("data analyst Google", null, null, null);
-		Query q = new Query(null, "djiegejojweiofwes", null, null);
+		Query q = new Query(null, "Carnegie Mellon University Zhejiang University machine learning", null, null);
 //		Query q = new Query(null, null, "data analysis", null);
 //		Query q = new Query(null, null, null, "Carnegie Mellon data analysis");
-		MainRanking rank = new MainRanking();
+		MainRanking2 rank = new MainRanking2();
 		ArrayList<Profile> profiles = rank.rankingResult(q);
-		System.out.println("size: " + rank.rankingResult(q) + " indicator: " + rank.indicatorQ);
+		System.out.println("size: " + profiles.size() + " indicator: " + rank.indicatorQ);
 	}
 }

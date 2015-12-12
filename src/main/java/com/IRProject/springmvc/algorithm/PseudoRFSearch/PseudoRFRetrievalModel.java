@@ -7,7 +7,11 @@ import java.util.Map.Entry;
 import com.IRProject.springmvc.algorithm.Classes.Document;
 import com.IRProject.springmvc.algorithm.IndexingLucene.MyIndexReader;
 import com.IRProject.springmvc.model.Profile;
-
+/**
+ * 
+ * @author millerai
+ *
+ */
 public class PseudoRFRetrievalModel {
 
 	MyIndexReader ixreader;
@@ -46,6 +50,10 @@ public class PseudoRFRetrievalModel {
 
 		//sort all retrieved documents from most relevant to least, and return TopN
 		List<Document> results = new ArrayList<Document>();
+		
+		//When none of the terms in the query existed in the collection, return null
+		if (GetTokenRFScore(query,TopK) == null)
+			return null;
 		
 		//get <token, P(token|feedback documents)>
 		HashMap<String,Double> TokenRFScore = GetTokenRFScore(query,TopK);
@@ -144,6 +152,11 @@ public class PseudoRFRetrievalModel {
 			//no need to store Profiles, so set them null;
 			Document doc = new Document(String.valueOf(docID), "",docRankScore, null);
 			rankList.add(doc);
+		}
+		
+		//When none of the term in the query existed in the collection, ref docs size = 0, return null
+		if (rankList.size() < TopK) {
+			return null;
 		}
 		
 		//Sort relevant documents with descending order

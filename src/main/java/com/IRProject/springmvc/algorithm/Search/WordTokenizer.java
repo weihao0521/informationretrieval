@@ -1,5 +1,9 @@
 package com.IRProject.springmvc.algorithm.Search;
-
+/**
+ * 
+ * @author millerai
+ *
+ */
 public class WordTokenizer {
 	String content;
 	String[] words;
