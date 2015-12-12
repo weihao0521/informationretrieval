@@ -31,6 +31,7 @@ public class PseudoRFRetrievalModel {
 		RefLength = 0;
 	}
 	
+	
 	/**
 	 * Search for the topic with pseudo relevance feedback. 
 	 * The returned results (retrieved documents) should be ranked by the score (from the most relevant to the least).
@@ -56,7 +57,7 @@ public class PseudoRFRetrievalModel {
 			double docRankScore = 1;
 			
 			for(int i = 0; i < tokens.length; i++){				
-				//P(w|D') = alpha * P(w|D) + (1-alpha) * P(w|REF)
+				//P(w|D') = alpha * P(w|D) + (1-alpha) * P(w|REF)s
 				double TokenDocScoreBefore = DocTokenScore.get(docID).get(tokens[i]);
 				double TokenDocScoreAfter = alpha * TokenDocScoreBefore + (1-alpha) * TokenRFScore.get(tokens[i]);
 				
@@ -88,7 +89,7 @@ public class PseudoRFRetrievalModel {
 		
 		//<token, P(w|Co)>
 		Map<String, Double> TermCoProb = new HashMap<String, Double>();
-		int mu = 10;
+		int mu = 1000;
 		
 		String[] tokens = query.split("\\s+");
 		for(int i = 0; i<tokens.length; i++){

@@ -20,6 +20,7 @@ import org.apache.lucene.util.BytesRef;
 
 import com.IRProject.springmvc.algorithm.Classes.Path;
 /**
+ * @author millerai
  * A class for reading your index.
  */
 public class MyIndexReader {
@@ -56,7 +57,9 @@ public class MyIndexReader {
 	public int getDocid( String docno ) throws IOException {
 		// you should implement this method.
 		Query query = new TermQuery(new Term("DOCNO", docno));
-		TopDocs tops= isearcher.search(query,1);
+//		System.out.println("query: " + query.toString());
+		TopDocs tops= isearcher.search(query,2);
+//		System.out.println("tops.scoreDocs: " + tops.scoreDocs.length);
 		return tops.scoreDocs[0].doc;
 	}
 	

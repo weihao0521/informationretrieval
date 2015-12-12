@@ -18,27 +18,51 @@ public class PreProcessQuery {
 	
 	public PreProcessQuery(Query q) {
 		query = q;
-		getIndicateContent();
+		generateIndicateContent();
+		
 	}
 
 	//Get all the querys' # & content, store them in a list
-	private void getIndicateContent() {
-		if (query.getJob() != null) {
-			indicator = "job";
-			content = query.getJob();
-		}
-		else if (query.getSkill() != null) {
-			indicator = "skill";
-			content = query.getSkill();
-		}
-		else if (query.getUniversity() != null) {
-			indicator = "education";
-			content = query.getUniversity();
-		}
-		else if (query.getQuery() != null) {
+	private void generateIndicateContent() {
+		StringBuilder sb = new StringBuilder();
+		if (query.getQuery() != null) {
 			indicator = "general";
-			content = query.getQuery();
-		}	
+			sb.append(query.getQuery());
+			if (query.getJob() != null) {
+				sb.append(query.getJob());
+			}
+			if (query.getSkill() != null) {
+				sb.append(query.getSkill());
+			}
+			if (query.getUniversity() != null) {
+				sb.append(query.getUniversity());
+			}
+		}
+		else if (query.getJob() != null && query.getSkill() == null && query.getUniversity() == null) {
+			indicator = "job";
+			sb.append(query.getJob());
+		}
+		else if (query.getSkill() != null && query.getJob() == null && query.getUniversity() == null) {
+			indicator = "skill";
+			sb.append(query.getSkill());
+		}
+		else if (query.getUniversity() != null && query.getSkill() == null && query.getJob() == null) {
+			indicator = "education";
+			sb.append(query.getUniversity());
+		} // more than two != null
+		else {
+			indicator = "general";
+			if (query.getJob() != null) {
+				sb.append(query.getJob());
+			}
+			if (query.getSkill() != null) {
+				sb.append(query.getSkill());
+			}
+			if (query.getUniversity() != null) {
+				sb.append(query.getUniversity());
+			}
+		}
+		content = sb.toString();
 	}
 	
 	//indicate the kind of the query: job? skill? edu? general?

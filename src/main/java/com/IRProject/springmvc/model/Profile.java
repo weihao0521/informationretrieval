@@ -18,6 +18,7 @@ public class Profile {
     private String locality;
     private String industry;
     private String url;
+    private String summary;
     
     public void setUrl(String url) {
         this.url = url;
@@ -25,6 +26,14 @@ public class Profile {
 
     public String getUrl() {
         return url;
+    }
+    
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getSummary() {
+        return summary;
     }
     
     public void setUniversities(String[] universities) {

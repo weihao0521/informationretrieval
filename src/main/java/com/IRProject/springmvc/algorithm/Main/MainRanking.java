@@ -33,10 +33,10 @@ public class MainRanking {
 	// get specific length of indexing docs for "job", or "skill", ...
 	private HashMap<String, Integer> getIndexingLens() {
 		HashMap<String, Integer> length = new HashMap<String, Integer>();
-		length.put("job", 16559);
-		length.put("skill", 14773);
-		length.put("education", 17166);
-		length.put("general", 20088);
+		length.put("job", 616581);
+		length.put("skill", 623166);
+		length.put("education", 235217);
+		length.put("general", 1128252);
 		return length;
 	}
 	
@@ -105,10 +105,10 @@ public class MainRanking {
 	}
 	
 	public static void main(String[] args) throws Exception {
-//		Query q = new Query("computer science", null, null, null);
+		Query q = new Query("data analyst Google", null, null, null);
 //		Query q = new Query(null, "Carnegie Mellon", null, null);
 //		Query q = new Query(null, null, "data analysis", null);
-		Query q = new Query(null, null, null, "Carnegie Mellon data analysis");
+//		Query q = new Query(null, null, null, "Carnegie Mellon data analysis");
 		MainRanking rank = new MainRanking(q);
 		ArrayList<Profile> profiles = rank.rankingResult();
 		System.out.println("size: " + profiles.size() + " indicator: " + rank.indicatorQ);
