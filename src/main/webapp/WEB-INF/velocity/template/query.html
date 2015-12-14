@@ -1,0 +1,101 @@
+<div class="container">
+        
+<div id="morphsearch" class="morphsearch">
+                                <!--<input class="morphsearch-input" type="search" placeholder="Search..."/>-->
+                                <div>
+                        <form class="morphsearch-form" action="/search" method = "post">
+<nit-advanced-searchbox type="submit" ng-model="searchParams" 
+                        parameters="availableSearchParams" placeholder="Let's Search!">
+                            
+</nit-advanced-searchbox>
+<button class="morphsearch-submit" ng-click="addPredefinedNameSearchParam()" id = "submit" type="submit">Search</button>                                              	
+                    </form> 
+</div>
+                                <div ui-view></div>
+                        <div class="morphsearch-content">
+                                <div class="dummy-column">
+                                        <h2>Alumni Profile</h2>
+						<a class="dummy-media-object" href="https://www.linkedin.com/in/shuguang-han-35baa032" target="_blank">
+							<!--<img class="round" src="https://media.licdn.com/media/AAEAAQAAAAAAAAYtAAAAJGQzYzFkNjc2LTVlOWUtNDI2Ni05ZTQwLWVhZTlhNGJmNmZiZQ.jpg" height="50" width="50" alt="Shuguang Han"/>-->
+							<h3>Shuguang Han</h3>
+						</a>
+						<a class="dummy-media-object" href="https://www.linkedin.com/in/zhaosq" target="_blank">
+							<!--<img class="round" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/8/000/223/0a0/0117b2a.jpg" width="50" height="50" alt="Sanqiang (me.131x.com) Zhao"/>-->
+							<h3>Sanqiang Zhao</h3>
+						</a>
+						<a class="dummy-media-object" href="https://www.linkedin.com/in/xurunhua" target="_blank">
+							<!--<img class="round" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAOJAAAAJGI1OTI3MGFkLWJjYWQtNDdmYS1hOGNlLThlMWFlZTE3MjViOQ.jpg" width="50" height="50" alt="Runhua XU"/>-->
+							<h3>Runhua Xu</h3>
+						</a>
+						<a class="dummy-media-object" href="https://www.linkedin.com/in/jiayu-liu-6606038b" target="_blank">
+							<!--<img class="round" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAMYAAAAJDBjYjMyM2EwLTEwNzYtNDkxYy05NjM3LThiNjYxNDg4ODM5OQ.jpg" width="50" height="50" alt="Jiayu Liu"/>-->
+							<h3>Jiayu Liu</h3>
+						</a>
+						<a class="dummy-media-object" href="https://www.linkedin.com/in/zhaobo85" target="_blank">
+							<!--<img class="round" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/7/000/2ac/3f0/3d6989d.jpg" width="50" height="50" alt="Bo Zhao"/>-->
+							<h3>Bo Zhao</h3>
+						</a>
+						<a class="dummy-media-object" href="https://www.linkedin.com/in/hao-wang-303a4690" target="_blank">
+							<!--<img class="round" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/2/005/050/014/1878895.jpg" width="50" height="50" alt="Hao Wang"/>-->
+							<h3>Hao Wang</h3>
+						</a>
+                                </div>
+                                <div class="dummy-column">
+						<h2>Popular Company</h2>
+						<a class="dummy-media-object" href="https://www.linkedin.com/company/google/" target="_blank">
+							<!--<img src="https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAALTAAAAJGY1NGY1N2ZhLTNmZmUtNGRmZi1iMDgxLTJjZjdkNjNkYmZlOQ.png" alt="Google" class="image" width="50" height="50"/>-->
+							<h3>Google</h3>
+						</a>
+						<a class="dummy-media-object" href="https://www.linkedin.com/company/apple" target="_blank">
+							<!--<img src="http://abankirenk.com/wp-content/uploads/2015/01/official-apple-logo-2014-widescreen-2.jpg" alt="Apple" class="image" width="50" height="50"/>-->
+							<h3>Apple</h3>
+						</a>
+						<a class="dummy-media-object" href="https://www.linkedin.com/company/microsoft/" target="_blank">
+							<!--<img src="https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAaCAAAAJGJiODNlYzRmLTY1NjItNDU2Ni1hOTRlLWE2NjgzN2U0NGY2OA.png" alt="Microsoft" class="image" width="50" height="50"/>-->
+							<h3>Microsoft</h3>
+						</a>
+						<a class="dummy-media-object" href="https://www.linkedin.com/company/facebook/" target="_blank">
+							<!--<img src="https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAYRAAAAJDVlMzBlYjNiLTAxN2QtNGQxZC1iZTAzLTlmNWQ1OTE4OGY4ZA.png" alt="Facebook" class="image" width="50" height="50"/>-->
+							<h3>Facebook</h3>
+						</a>
+						<a class="dummy-media-object" href="https://www.linkedin.com/company/ibm/" target="_blank">
+							<!--<img src="https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAalAAAAJGVhNjkzZjNkLWNmZjUtNDUxMS1hODJkLTMzNjllOTM0N2RmNQ.png" alt="IBM" class="image" width="50" height="50"/>-->
+							<h3>IBM</h3>
+						</a>
+						<a class="dummy-media-object" href="https://www.linkedin.com/company/emc/" target="_blank">
+							<!--<img src="https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAANCAAAAJGU0ZmRhYmNmLTZlZDEtNDVmZi1iMjhkLTViY2JlOWU3NDgxOQ.png" alt="EMC" class="image" width="50" height="50"/>-->
+							<h3>EMC</h3>
+						</a>
+                                </div>
+                                <div class="dummy-column">
+                                        <h2>Hot Post</h2>
+                                        <a class="dummy-media-object" href="http://tympanus.net/codrops/2014/10/07/tooltip-styles-inspiration/" target="_blank">
+                                                <!--<img src="https://media.licdn.com/mpr/mpr/shrink_100_100/AAEAAQAAAAAAAAaHAAAAJDU3NThmZTM1LTk3ZmItNDgzMi1iYmM3LWIyYjJkYWU3ZWI2Yg.jpg" alt="Machine Learning &amp; Data Science: A Brief History of AI" class="image" width="50" height="50"/>-->
+                                                <h3>Machine Learning & Data Science: A Brief History of AI</h3>
+                                        </a>
+                                        <a class="dummy-media-object" href="https://www.linkedin.com/pulse/20130731111846-50510-find-and-be-found-information-retrieval-at-linkedin" target="_blank">
+                                                <!--<img class="entity-img" width="50" height="50" src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/2/000/2bf/257/0dae0af.png"/>-->
+                                                <h3>Find and be Found: Information Retrieval at LinkedIn</h3>
+                                        </a>
+                                        <a class="dummy-media-object" href="https://www.linkedin.com/pulse/tutorial-deep-learning-autoencoders-convolutional-diego?trk=sushi_topic_posts/" target="_blank">
+                                                <!--<img src="https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAW3AAAAJDg5Y2JhMzcyLTdiMjctNDM0MC05ZWQ4LTJhZDVhYTExNDZjOQ.jpg" width="50" height="50" data-loading-tracked="true"/>-->
+                                                <h3>Tutorial on Deep Learning: Autoencoders, Convolutional Neural Networks</h3>
+                                        </a>
+                                        <a class="dummy-media-object" href="http://www.slideshare.net/jinxbinx/boltzmann-machine/">
+                                                <!--<img src="http://cdn.slidesharecdn.com/ss_thumbnails/boltzmannmachine-131108000007-phpapp01-thumbnail-3.jpg" width="50" height="50" target="_blank"/>-->
+                                                <h3>Brief Introduction to Boltzmann Machine</h3>
+                                        </a>
+                                        <a class="dummy-media-object" href="https://www.linkedin.com/pulse/jumping-nlp-curves-review-natural-language-processing-diego?trkInfo=VSRPsearchId%3A808056201450042247992%2CVSRPtargetId%3A6009656288135430144%2CVSRPcmpt%3Aprimary&trk=vsrp_influencer_content_res_name" target="_blank">
+                                                <!--<img src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAMSAAAAJGM0NmIyNmY2LWUyMGUtNDgzZS1hMWExLTBhMDU1ZWFlZGYwNg.png" alt="" width="50" height="50" data-loading-tracked="true"/>-->
+                                                <h3>Jumping NLP Curves: A Review of NLP Research</h3>
+                                        </a>
+                                        <a class="dummy-media-object" href="https://www.linkedin.com/pulse/understanding-how-google-algorithm-updates-affect-your-berthold?trkInfo=VSRPsearchId%3A808056201450044112325%2CVSRPtargetId%3A6079848276830490624%2CVSRPcmpt%3Aprimary&trk=vsrp_influencer_content_res_name/" target="_blank">
+                                                <!--<img src="https://media.licdn.com/mpr/mpr/jc/AAEAAQAAAAAAAAb_AAAAJDNkNDg2N2JhLTdiMmQtNDIxNS05YzZhLWNkYWQyMTRiNGU3YQ.jpg" itemprop="image" class="cover-image" alt="Understanding How Google Algorithm Updates Affect Your SEO Campaigns" width="50" height="50"/>-->
+                                                <h3>How Google Algorithm Updates Affect Your SEO Campaigns</h3>
+                                        </a>
+                                </div>
+                        </div><!-- /morphsearch-content -->
+                        <span class="morphsearch-close"></span>
+                </div><!-- /morphsearch -->
+                <div class="overlay"></div>
+</div><!-- /container -->

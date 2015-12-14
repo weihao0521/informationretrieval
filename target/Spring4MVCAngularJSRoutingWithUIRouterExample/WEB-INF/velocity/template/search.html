@@ -1,0 +1,49 @@
+
+<div>
+<div id="ca-container" class="ca-container">
+    <div class="ca-wrapper">
+        <header class="codrops-header" ng-show="!srController.items.length">
+            Sorry, bad search query. No Linkedin Result Return
+            <br>
+            Please click <a href ="/LinkedinSearchEngine/#/" style="color: red">  here </a> to redirect 
+        </header>
+        <div class="ca-item ca-item" ng-repeat="item in srController.items">           
+            <div class="ca-item-{{$index}}">
+                <div class="ca-item-main">
+                        <h2>{{item.name}}</h2>
+                        <span>{{item.locality}}&nbsp;||&nbsp;{{item.industry}}</span>
+                        <hr>
+                        <p>Summary:</p>
+                        <span ng-show="!item.summary.length">No Summary data</span>
+                        <span>{{ item.summary | limitTo: 200 }}{{myString.length > 200 ? "&hellip;" : '~~~'}}</span>
+
+                        <hr>
+                        <p>School:</p>
+                        
+                        <span ng-repeat="school in item.universities track by $index" ng-if="$index < 5" >                        
+                        <span>{{school}}&#44;&nbsp;</span>
+                        </span>
+                        
+                        <hr>
+                        <p>Company:</p>
+                        <span ng-repeat="company in item.companies track by $index"  ng-if="$index < 5">
+                            <span>{{company}}&#44;&nbsp;</span>
+                            <span ng-show="!company.length">No Company data</span>
+                        </span>
+                        <hr>
+                        <p>Skill</p>
+                        <span ng-show="!item.skills">No Skill data</span>
+                        <span ng-repeat="skill in item.skills"  ng-if="$index < 10">
+                            
+                            <span>{{skill}}&#44;&nbsp;</span>
+                        </span>
+                        
+                                <a class="ca-more" href="{{item.url}}"  target="_blank">more...</a>
+                </div>
+            </div>
+           
+    </div>
+</div>
+</div>
+    <!--<div ui-view></div>-->
+</div>	
